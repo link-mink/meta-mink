@@ -13,7 +13,7 @@ SRCREV = "8dd2086d3b32e653e42814c2b49fe196740d4fce"
 DEPENDS += " \
             pkgconfig-native gperf-native libtool automake autoconf \
             ncurses lksctp-tools bash openssl \
-            boost libcap \
+            boost libcap procps \
             "
 
 S = "${WORKDIR}/git"
@@ -27,6 +27,7 @@ TARGET_CPPFLAGS:append = " \
                         -I${S}/src/include \
                         -I${S}/src/services/config \
                         -I${S}/src/services/routing \
+                        -I${S}/src/proto \
                         -Wno-format-security \
                         -std=c++11 \
                         "
@@ -38,9 +39,9 @@ PACKAGECONFIG_CONFARGS = " \
                         --enable-codegen=no \
                         --enable-openwrt=no \
                         --enable-jrpc=yes \
-                        --enable-sysagen=yes \
+                        --enable-sysagent=yes \
                         --enable-openssl=yes \
-                        --enable-gdttrac=no \
+                        --enable-gdttrac=yes \
                         --enable-configd=no \
                         "
 
