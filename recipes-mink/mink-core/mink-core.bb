@@ -7,8 +7,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
 HOMEPAGE = "https://github.com/link-mink/mink-core"
 
 SRC_URI = "git://github.com/link-mink/mink-core.git;protocol=https;branch=dev"
-SRC_URI[sha256sum] = "bce3118ab1fea9c53bb579100e6bca3cb9a8b6b1f145bfab0c3c28397d6cabe0"
-SRCREV = "8dd2086d3b32e653e42814c2b49fe196740d4fce"
+SRCREV = "${AUTOREV}"
 
 DEPENDS += " \
             pkgconfig-native gperf-native libtool automake autoconf \
