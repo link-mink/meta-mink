@@ -14,6 +14,9 @@ MINK_INIT_SYSV = " \
 "
 
 MINK_INIT_SYSTEMD = " \
+    mink-sysagent \
+    mink-routing \
+    mink-jrpc \
 "
 
 MINK_CORE = " \
@@ -23,5 +26,6 @@ MINK_CORE = " \
 RDEPENDS:${PN} = " \
     ${MINK_CORE} \
     ${@bb.utils.contains("DISTRO_FEATURES", "sysvinit", "${MINK_INIT_SYSV}", "", d)} \
+    ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "${MINK_INIT_SYSTEMD}", "", d)} \
 "
 
