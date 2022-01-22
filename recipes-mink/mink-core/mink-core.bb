@@ -12,7 +12,7 @@ SRCREV = "${AUTOREV}"
 DEPENDS += " \
             pkgconfig-native gperf-native libtool automake autoconf \
             ncurses lksctp-tools bash openssl \
-            boost libcap procps \
+            boost libcap procps zlib \
             "
 
 S = "${WORKDIR}/git"
