@@ -29,7 +29,7 @@ do_compile() {
 }
 
 do_install () {
-    install -d -m 755 ${D}/etc/init.d
-    cp -R --no-dereference --preserve=mode -v ${S}/etc/init.d/* ${D}/etc/init.d/
+    install -d -m 755 ${D}${sysconfdir}/init.d
+    cp -R --no-dereference --preserve=mode -v ${S}/etc/init.d/* ${D}${sysconfdir}/init.d/
 }
 
