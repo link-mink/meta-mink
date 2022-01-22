@@ -10,6 +10,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 inherit packagegroup
 
 MINK_INIT_SYSV = " \
+    mink-sysv \
 "
 
 MINK_INIT_SYSTEMD = " \
@@ -21,5 +22,6 @@ MINK_CORE = " \
 
 RDEPENDS:${PN} = " \
     ${MINK_CORE} \
+    ${@bb.utils.contains("DISTRO_FEATURES", "sysvinit", "${MINK_INIT_SYSV}", "", d)} \
 "
 
