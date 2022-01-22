@@ -33,18 +33,24 @@ TARGET_CPPFLAGS:append = " \
 
 RDPENDS = "bash"
 
-PACKAGECONFIG_CONFARGS = " \
+PACKAGECONFIG_CONFARGS:append = " \
+                        --enable-mdebug=no \
                         --enable-grpc=no \
                         --enable-codegen=no \
                         --enable-openwrt=no \
+                        --enable-configd=no \
+                        --enable-syslog=no \
+                        --enable-clips=no \
+                        --enable-tlsv12=no \
+                        --enable-plain-ws=no \
+                        --enable-ws-single-session=no \
                         --enable-jrpc=yes \
                         --enable-sysagent=yes \
                         --enable-openssl=yes \
                         --enable-gdttrac=yes \
-                        --enable-configd=no \
+                        --with-gdt-csize=1024 \
+                        --with-boost="${D}${libdir} ${D}${includedir}" \
                         "
-
-BUILD_SO = "${WORKDIR}/build/.libs"
 
 SOLIBS = "*.so.*"
 SOLIBSDEV = "*.so"
