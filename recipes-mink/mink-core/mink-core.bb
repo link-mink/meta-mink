@@ -52,12 +52,15 @@ PACKAGECONFIG_CONFARGS:append = " \
                         --with-boost="${D}${libdir} ${D}${includedir}" \
                         "
 
-SOLIBS = "*.so.*"
-SOLIBSDEV = "*.so"
 FILES_SOLIBSDEV = ""
 
-FILES:${PN}-lib-mink = "${libdir}/mink/${SOLIBS} ${libdir}/${SOLIBSDEV}"
-PACKAGES:append = " ${PN}-lib-mink"
+FILES:${PN} = " \
+                ${bindir} \
+                ${libdir} \
+                ${libdir}/mink \
+                "
+
+INSANE_SKIP:${PN} = "dev-so"
 
 do_compile:prepend() {
     # prepare these for the build
@@ -68,10 +71,4 @@ do_compile:prepend() {
     # prepare libantlr3c-3.4 on a correct location for the buildsystem
     mkdir -p ${WORKDIR}/build/lib/libantlr3c-3.4
     cp -r ${S}/lib/libantlr3c-3.4/include ${WORKDIR}/build/lib/libantlr3c-3.4
-}
-
-do_install:append() {
-    # remove uncessary symlinks to satisfy QA
-    find ${D}${libdir} -type l -delete -name "$SOLIBSDEV"
-    find ${D}${libdir}/mink -type l -delete -name "$SOLIBSDEV"
 }
