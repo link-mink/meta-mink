@@ -7,6 +7,13 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
 HOMEPAGE = "https://github.com/link-mink/mink-core"
 
 PV = "1.1.5"
+
+# Generate cerficiates by yourself on files/etc/mink location. They will be then installed on
+# the /etc/mink location on the system. If no certs are provided, error will trigger during the
+# build and it will fail.
+#
+# We don't want to keep any certs on git repo so this is the user's/engineer's responsibility.
+
 SRC_URI = " \
             git://github.com/link-mink/mink-core.git;protocol=https;branch=main;tag=v${PV} \
             file://etc/mink/cert.pem \
