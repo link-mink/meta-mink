@@ -7,7 +7,13 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
 HOMEPAGE = "https://github.com/link-mink/mink-core"
 
 PV = "1.1.5"
-SRC_URI = "git://github.com/link-mink/mink-core.git;protocol=https;branch=main;tag=v${PV}"
+SRC_URI = " \
+            git://github.com/link-mink/mink-core.git;protocol=https;branch=main;tag=v${PV} \
+            file://etc/mink/cert.pem \
+            file://etc/mink/dh.pem \
+            file://etc/mink/key.pem \
+            file://etc/mink/mink.db \
+            "
 
 DEPENDS += " \
             pkgconfig-native gperf-native libtool automake autoconf \
@@ -58,6 +64,11 @@ FILES:${PN} = " \
                 ${bindir} \
                 ${libdir} \
                 ${libdir}/mink \
+                ${sysconfdir} \
+                ${sysconfdir}/mink/cert.pem \
+                ${sysconfdir}/mink/dh.pem \
+                ${sysconfdir}/mink/key.pem \
+                ${sysconfdir}/mink/mink.db \
                 "
 
 INSANE_SKIP:${PN} = "dev-so"
@@ -71,4 +82,9 @@ do_compile:prepend() {
     # prepare libantlr3c-3.4 on a correct location for the buildsystem
     mkdir -p ${WORKDIR}/build/lib/libantlr3c-3.4
     cp -r ${S}/lib/libantlr3c-3.4/include ${WORKDIR}/build/lib/libantlr3c-3.4
+}
+
+do_install:append() {
+    mkdir -p ${D}${sysconfdir}/mink
+    cp -R --no-dereference --preserve=mode -v ${WORKDIR}/etc/mink/* ${D}${sysconfdir}/mink/
 }
