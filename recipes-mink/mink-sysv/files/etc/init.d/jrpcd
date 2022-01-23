@@ -1,0 +1,62 @@
+#!/bin/sh
+
+DAEMON="jrpcd"
+PIDFILE="/var/run/mink_$DAEMON.pid"
+MINK_DID="jrpc1"
+RTRD_ADDRESS="127.0.0.1:15000"
+BIND_ADDRESS="127.0.0.1"
+WS_ADDRESS="192.168.1.5:8000"
+CERTS_DIR="/root/certs"
+DB_DIR="/etc/mink/mink.db"
+GDT_STREAMS="100"
+
+ARGS="-i $MINK_DID \
+      -c $RTRD_ADDRESS \
+      -h $BIND_ADDRESS \
+      -u -w $WS_ADDRESS \
+      -C $CERTS_DIR \
+      -s $DB_DIR \
+      --gdt-streams=$GDT_STREAMS"
+
+start() {
+	printf 'Starting %s: ' "$DAEMON"
+	start-stop-daemon -b -m -S -q -p "$PIDFILE" -x "/usr/bin/$DAEMON" \
+		-- $ARGS
+	status=$?
+	if [ "$status" -eq 0 ]; then
+		echo "OK"
+	else
+		echo "FAIL"
+	fi
+	return "$status"
+}
+
+stop() {
+	printf 'Stopping %s: ' "$DAEMON"
+	start-stop-daemon -K -q -p "$PIDFILE"
+	status=$?
+	if [ "$status" -eq 0 ]; then
+		rm -f "$PIDFILE"
+		echo "OK"
+	else
+		echo "FAIL"
+	fi
+	return "$status"
+}
+
+restart() {
+	stop
+	sleep 1
+	start
+}
+
+case "$1" in
+	start|stop|restart)
+		"$1";;
+	reload)
+		# Restart, since there is no true "reload" feature.
+		restart;;
+	*)
+		echo "Usage: $0 {start|stop|restart|reload}"
+		exit 1
+esac
