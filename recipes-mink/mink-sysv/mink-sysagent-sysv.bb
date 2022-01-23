@@ -9,9 +9,7 @@ HOMEPAGE = "https://github.com/link-mink/mink-core"
 # try to match with mink-core version
 PV = "1.1.5"
 SRC_URI = " \
-            file://etc/init.d/routingd \
             file://etc/init.d/sysagentd \
-            file://etc/init.d/jrpcd \
             "
 
 DEPENDS += " \
@@ -20,16 +18,13 @@ DEPENDS += " \
 
 S = "${WORKDIR}"
 
-do_configure() {
-    :
-}
+inherit update-rc.d
 
-do_compile() {
-    :
-}
+INITSCRIPT_NAME = "sysagentd"
+INITSCRIPT_PARAMS = "start 43 2 3 4 5 ."
 
 do_install () {
     install -d -m 755 ${D}${sysconfdir}/init.d
-    cp -R --no-dereference --preserve=mode -v ${S}/etc/init.d/* ${D}${sysconfdir}/init.d/
+    cp -R --no-dereference --preserve=mode -v ${S}/etc/init.d/${INITSCRIPT_NAME} ${D}${sysconfdir}/init.d/
 }
 
