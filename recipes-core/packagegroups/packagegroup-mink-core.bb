@@ -10,7 +10,9 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 inherit packagegroup
 
 MINK_INIT_SYSV = " \
-    mink-sysv \
+    mink-routing-sysv \
+    mink-sysagent-sysv \
+    mink-jrpc-sysv \
 "
 
 MINK_INIT_SYSTEMD = " \
