@@ -16,9 +16,9 @@ MINK_INIT_SYSV = " \
 "
 
 MINK_INIT_SYSTEMD = " \
-    mink-sysagent \
-    mink-routing \
-    mink-jrpc \
+    mink-routing-sysd \
+    mink-sysagent-sysd \
+    mink-jrpc-sysd \
 "
 
 MINK_CORE = " \
