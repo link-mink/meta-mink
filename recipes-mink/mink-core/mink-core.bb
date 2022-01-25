@@ -29,6 +29,7 @@ DEPENDS += " \
             "
 
 S = "${WORKDIR}/git"
+B = "${WORKDIR}/build"
 
 inherit autotools
 
@@ -83,13 +84,14 @@ INSANE_SKIP:${PN} = "dev-so"
 
 do_compile:prepend() {
     # prepare these for the build
-    cp ${S}/version.sh ${WORKDIR}/build
-    cp ${S}/authors.sh ${WORKDIR}/build
-    cp ${S}/changelog.sh ${WORKDIR}/build
+    cp ${S}/version.sh ${B}
+    cp ${S}/authors.sh ${B}
+    cp ${S}/changelog.sh ${B}
 
     # prepare libantlr3c-3.4 on a correct location for the buildsystem
-    mkdir -p ${WORKDIR}/build/lib/libantlr3c-3.4
-    cp -r ${S}/lib/libantlr3c-3.4/include ${WORKDIR}/build/lib/libantlr3c-3.4
+    mkdir -p ${B}/lib/libantlr3c-3.4
+    cp -r ${S}/lib/libantlr3c-3.4/include ${B}/lib/libantlr3c-3.4
+
 }
 
 do_install:append() {
