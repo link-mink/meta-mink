@@ -38,6 +38,7 @@ TARGET_CXXLD:remove = " \
 TARGET_CPPFLAGS:append = " \
                         -I${S}/src/include \
                         -I${S}/src/services/config \
+                        -I${S}/src/services/sysagent \
                         -I${S}/src/services/routing \
                         -I${S}/src/proto \
                         -Wno-format-security \
