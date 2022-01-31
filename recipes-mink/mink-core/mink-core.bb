@@ -26,6 +26,7 @@ DEPENDS += " \
             pkgconfig-native gperf-native libtool automake autoconf \
             ncurses lksctp-tools bash openssl \
             boost libcap procps zlib \
+            protobuf-native grpc-native protobuf grpc \
             "
 
 S = "${WORKDIR}/git"
@@ -92,6 +93,17 @@ do_compile:prepend() {
     mkdir -p ${B}/lib/libantlr3c-3.4
     cp -r ${S}/lib/libantlr3c-3.4/include ${B}/lib/libantlr3c-3.4
 
+    # handle protoc and grpc
+    ${STAGING_DIR_NATIVE}/usr/bin/protoc \
+		--grpc_out=${S}/src/proto \
+		--plugin=protoc-gen-grpc=${STAGING_DIR_NATIVE}/usr/bin/grpc_cpp_plugin \
+		-I${S}/src/proto \
+		${S}/src/proto/gdt.proto
+
+	${STAGING_DIR_NATIVE}/usr/bin/protoc \
+		--cpp_out=${S}/src/proto \
+		-I${S}/src/proto \
+		${S}/src/proto/gdt.proto
 }
 
 do_install:append() {
