@@ -49,24 +49,29 @@ TARGET_CPPFLAGS:append = " \
 
 RDPENDS = "bash"
 
-PACKAGECONFIG_CONFARGS:append = " \
-                        --enable-mdebug=no \
-                        --enable-grpc=no \
-                        --enable-codegen=no \
-                        --enable-openwrt=no \
-                        --enable-configd=no \
-                        --enable-syslog=no \
-                        --enable-clips=no \
-                        --enable-tlsv12=no \
-                        --enable-plain-ws=no \
-                        --enable-ws-single-session=no \
-                        --enable-jrpc=yes \
-                        --enable-sysagent=yes \
-                        --enable-openssl=yes \
-                        --enable-gdttrac=yes \
+PACKAGECONFIG_CONFARGS = " \
                         --with-gdt-csize=1024 \
                         --with-boost="${D}${libdir} ${D}${includedir}" \
                         "
+
+PACKAGECONFIG = " \
+                sysagentd \
+                jrpcd \
+                openssl \
+                grpcd \
+"
+
+PACKAGECONFIG[sysagentd] = "--enable-sysagent=yes,--enable-sysagent=no"
+PACKAGECONFIG[jrpcd] = "--enable-jrpc=yes,--enable-jrpc=no"
+PACKAGECONFIG[grpcd] = "--enable-grpc=yes,--enable-grpc=no"
+PACKAGECONFIG[gdttrac] = "--enable-gdttrac=yes,--enable-gdttrac=no"
+PACKAGECONFIG[configd] = "--enable-configd=yes,--enable-configd=no"
+PACKAGECONFIG[syslog] = "--enable-syslog=yes,--enable-syslog=no"
+PACKAGECONFIG[clips] = "--enable-clips=yes,--enable-clips=no"
+PACKAGECONFIG[tlsv12] = "--enable-tlsv12=yes,--enable-tlsv12=no"
+PACKAGECONFIG[openssl] = "--enable-openssl=yes,--enable-openssl=no"
+PACKAGECONFIG[plain-ws] = "--enable-plain-ws=yes,--enable-plain-ws=no"
+PACKAGECONFIG[ws-single-session] = "--enable-ws-single-session=yes,--enable-ws-single-session=no"
 
 FILES_SOLIBSDEV = ""
 
