@@ -6,7 +6,7 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 HOMEPAGE = "https://github.com/link-mink/mink-core"
 
-PV = "1.1.5"
+PV = "1.1.7"
 
 # Generate cerficiates by yourself on files/etc/mink location. They will be then installed on
 # the /etc/mink location on the system. If no certs are provided, error will trigger during the
@@ -15,19 +15,19 @@ PV = "1.1.5"
 # We don't want to keep any certs on git repo so this is the user's/engineer's responsibility.
 
 SRC_URI = " \
-            git://github.com/link-mink/mink-core.git;protocol=https;branch=main;tag=v${PV} \
-            file://etc/mink/cert.pem \
-            file://etc/mink/dh.pem \
-            file://etc/mink/key.pem \
-            file://etc/mink/mink.db \
-            "
+    git://github.com/link-mink/mink-core.git;protocol=https;branch=dev;tag=v${PV} \
+    file://etc/mink/cert.pem \
+    file://etc/mink/dh.pem \
+    file://etc/mink/key.pem \
+    file://etc/mink/mink.db \
+"
 
 DEPENDS += " \
-            pkgconfig-native gperf-native libtool automake autoconf \
-            ncurses lksctp-tools bash openssl \
-            boost libcap procps zlib \
-            protobuf-native grpc-native protobuf grpc \
-            "
+    pkgconfig-native gperf-native libtool automake autoconf \
+    ncurses lksctp-tools bash openssl \
+    boost libcap procps zlib \
+    protobuf-native grpc-native protobuf grpc \
+"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
@@ -38,53 +38,85 @@ TARGET_CXXLD:remove = " \
                         -Wformat-security"
 
 TARGET_CPPFLAGS:append = " \
-                        -I${S}/src/include \
-                        -I${S}/src/services/config \
-                        -I${S}/src/services/sysagent \
-                        -I${S}/src/services/routing \
-                        -I${S}/src/proto \
-                        -Wno-format-security \
-                        -std=c++11 \
-                        "
+    -I${S}/src/include \
+    -I${S}/src/services/config \
+    -I${S}/src/services/sysagent \
+    -I${S}/src/services/routing \
+    -I${S}/src/proto \
+    -Wno-format-security \
+    -std=c++11 \
+"
 
 RDPENDS = "bash"
 
 PACKAGECONFIG_CONFARGS = " \
-                        --with-gdt-csize=1024 \
-                        --with-boost="${D}${libdir} ${D}${includedir}" \
-                        "
-
-PACKAGECONFIG = " \
-                sysagentd \
-                jrpcd \
-                openssl \
-                grpcd \
+    --with-gdt-csize=1024 \
+    --with-boost="${D}${libdir} ${D}${includedir}" \
 "
 
-PACKAGECONFIG[sysagentd] = "--enable-sysagent=yes,--enable-sysagent=no"
-PACKAGECONFIG[jrpcd] = "--enable-jrpc=yes,--enable-jrpc=no"
-PACKAGECONFIG[grpcd] = "--enable-grpc=yes,--enable-grpc=no"
-PACKAGECONFIG[gdttrac] = "--enable-gdttrac=yes,--enable-gdttrac=no"
-PACKAGECONFIG[configd] = "--enable-configd=yes,--enable-configd=no"
-PACKAGECONFIG[syslog] = "--enable-syslog=yes,--enable-syslog=no"
-PACKAGECONFIG[clips] = "--enable-clips=yes,--enable-clips=no"
-PACKAGECONFIG[tlsv12] = "--enable-tlsv12=yes,--enable-tlsv12=no"
-PACKAGECONFIG[openssl] = "--enable-openssl=yes,--enable-openssl=no"
-PACKAGECONFIG[plain-ws] = "--enable-plain-ws=yes,--enable-plain-ws=no"
-PACKAGECONFIG[ws-single-session] = "--enable-ws-single-session=yes,--enable-ws-single-session=no"
+PACKAGECONFIG = " \
+    sysagentd \
+    jrpcd \
+    openssl \
+"
+
+PACKAGECONFIG[sysagentd] = " \
+    --enable-sysagent=yes, \
+    --enable-sysagent=no \
+"
+PACKAGECONFIG[jrpcd] = " \
+    --enable-jrpc=yes, \
+    --enable-jrpc=no \
+"
+PACKAGECONFIG[grpcd] = " \
+    --enable-grpc=yes, \
+    --enable-grpc=no \
+"
+PACKAGECONFIG[configd] = " \
+    --enable-configd=yes, \
+    --enable-configd=no \
+"
+PACKAGECONFIG[gdttrac] = " \
+    --enable-gdttrac=yes, \
+    --enable-gdttrac=no \
+"
+PACKAGECONFIG[syslog] = " \
+    --enable-syslog=yes, \
+    --enable-syslog=no \
+"
+PACKAGECONFIG[clips] = " \
+    --enable-clips=yes, \
+    --enable-clips=no \
+"
+PACKAGECONFIG[tlsv12] = " \
+    --enable-tlsv12=yes, \
+    --enable-tlsv12=no \
+"
+PACKAGECONFIG[openssl] = " \
+    --enable-openssl=yes, \
+    --enable-openssl=no \
+"
+PACKAGECONFIG[plain-ws] = " \
+    --enable-plain-ws=yes, \
+    --enable-plain-ws=no \
+"
+PACKAGECONFIG[ws-single-session] = " \
+    --enable-ws-single-session=yes, \
+    --enable-ws-single-session=no \
+"
 
 FILES_SOLIBSDEV = ""
 
 FILES:${PN} = " \
-                ${bindir} \
-                ${libdir} \
-                ${libdir}/mink \
-                ${sysconfdir} \
-                ${sysconfdir}/mink/cert.pem \
-                ${sysconfdir}/mink/dh.pem \
-                ${sysconfdir}/mink/key.pem \
-                ${sysconfdir}/mink/mink.db \
-                "
+    ${bindir} \
+    ${libdir} \
+    ${libdir}/mink \
+    ${sysconfdir} \
+    ${sysconfdir}/mink/cert.pem \
+    ${sysconfdir}/mink/dh.pem \
+    ${sysconfdir}/mink/key.pem \
+    ${sysconfdir}/mink/mink.db \
+"
 
 INSANE_SKIP:${PN} = "dev-so"
 
@@ -105,7 +137,7 @@ do_compile:prepend() {
 		-I${S}/src/proto \
 		${S}/src/proto/gdt.proto
 
-	${STAGING_DIR_NATIVE}/usr/bin/protoc \
+    ${STAGING_DIR_NATIVE}/usr/bin/protoc \
 		--cpp_out=${S}/src/proto \
 		-I${S}/src/proto \
 		${S}/src/proto/gdt.proto
