@@ -23,10 +23,13 @@ SRC_URI = " \
 "
 
 DEPENDS += " \
-    pkgconfig-native gperf-native libtool automake autoconf \
-    ncurses lksctp-tools bash openssl \
+    pkgconfig-native \
+    gperf-native \
+    libtool-native \
+    automake-native \
+    autoconf-native \
+    ncurses lksctp-tools bash \
     boost libcap procps zlib \
-    protobuf-native grpc-native protobuf grpc \
 "
 
 S = "${WORKDIR}/git"
@@ -35,7 +38,8 @@ B = "${WORKDIR}/build"
 inherit autotools
 
 TARGET_CXXLD:remove = " \
-                        -Wformat-security"
+    -Wformat-security \
+"
 
 TARGET_CPPFLAGS:append = " \
     -I${S}/src/include \
@@ -54,6 +58,7 @@ PACKAGECONFIG_CONFARGS = " \
     --with-boost="${D}${libdir} ${D}${includedir}" \
 "
 
+# minimal configuration set for basic mNIK instance
 PACKAGECONFIG = " \
     sysagentd \
     jrpcd \
@@ -70,7 +75,8 @@ PACKAGECONFIG[jrpcd] = " \
 "
 PACKAGECONFIG[grpcd] = " \
     --enable-grpc=yes, \
-    --enable-grpc=no \
+    --enable-grpc=no, \
+    protobuf-native grpc-native protobuf grpc \
 "
 PACKAGECONFIG[configd] = " \
     --enable-configd=yes, \
@@ -94,7 +100,8 @@ PACKAGECONFIG[tlsv12] = " \
 "
 PACKAGECONFIG[openssl] = " \
     --enable-openssl=yes, \
-    --enable-openssl=no \
+    --enable-openssl=no, \
+    openssl \
 "
 PACKAGECONFIG[plain-ws] = " \
     --enable-plain-ws=yes, \
@@ -130,17 +137,22 @@ do_compile:prepend() {
     mkdir -p ${B}/lib/libantlr3c-3.4
     cp -r ${S}/lib/libantlr3c-3.4/include ${B}/lib/libantlr3c-3.4
 
-    # handle protoc and grpc
-    ${STAGING_DIR_NATIVE}/usr/bin/protoc \
-		--grpc_out=${S}/src/proto \
-		--plugin=protoc-gen-grpc=${STAGING_DIR_NATIVE}/usr/bin/grpc_cpp_plugin \
-		-I${S}/src/proto \
-		${S}/src/proto/gdt.proto
+    # Handle protoc and grpc only if grpcd is selected.
+    # Scan current packageconfig values for grpcd and if exists,
+    # invoke protoc.
+    cur_packageconfig="${@d.getVar('PACKAGECONFIG', True).split()}"
+    if  [[ " $cur_packageconfig " =~ grpcd ]]; then
+        ${STAGING_DIR_NATIVE}/usr/bin/protoc \
+            --grpc_out=${S}/src/proto \
+            --plugin=protoc-gen-grpc=${STAGING_DIR_NATIVE}/usr/bin/grpc_cpp_plugin \
+            -I${S}/src/proto \
+            ${S}/src/proto/gdt.proto
 
-    ${STAGING_DIR_NATIVE}/usr/bin/protoc \
-		--cpp_out=${S}/src/proto \
-		-I${S}/src/proto \
-		${S}/src/proto/gdt.proto
+        ${STAGING_DIR_NATIVE}/usr/bin/protoc \
+            --cpp_out=${S}/src/proto \
+            -I${S}/src/proto \
+            ${S}/src/proto/gdt.proto
+    fi
 }
 
 do_install:append() {
