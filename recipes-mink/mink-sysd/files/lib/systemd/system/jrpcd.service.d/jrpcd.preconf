@@ -1,0 +1,10 @@
+MINK_DID=jrpc1
+
+RTRD_ADDRESS=127.0.0.1:15000
+BIND_ADDRESS=127.0.0.1
+WS_ADDRESS=192.168.7.2:8000
+
+CERTS_DIR=/etc/mink
+DB_DIR=/etc/mink/mink.db
+
+GDT_STREAMS=--gdt-streams=100
