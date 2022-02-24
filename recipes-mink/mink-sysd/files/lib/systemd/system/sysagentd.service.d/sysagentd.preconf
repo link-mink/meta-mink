@@ -1,0 +1,11 @@
+DAEMON=sysagentd
+PIDFILE=/var/run/mink_$DAEMON.pid
+MINK_DID=ag1
+
+RTRD_ADDRESS=127.0.0.1:15000
+BIND_ADDRESS=127.0.0.1
+
+PLUGINS_DIR=/usr/lib/mink
+DB_DIR=/etc/mink/mink.db
+
+GDT_STREAMS=--gdt-streams=100

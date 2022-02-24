@@ -1,0 +1,11 @@
+[Unit]
+Description=sysagentd mINK framework service
+After=network.target
+Requires=routingd.service
+
+[Service]
+EnvironmentFile=-/lib/systemd/system/sysagentd.service.d/sysagentd.preconf
+ExecStart=/usr/bin/sysagentd -i $MINK_DID -c $RTRD_ADDRESS -h $BIND_ADDRESS -p $PLUGINS_DIR -s $DB_DIR $GDT_STREAMS
+
+[Install]
+WantedBy=multi-user.target
