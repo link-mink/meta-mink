@@ -1,0 +1,10 @@
+DAEMON=routingd
+PIDFILE=/var/run/mink_$DAEMON.pid
+
+MINK_DID=rt1
+
+SCTP_PORT=15000
+BIND_ADDRESS=127.0.0.1
+
+GDT_STREAMS=--gdt-streams=100
+

@@ -1,0 +1,10 @@
+[Unit]
+Description=routingd mINK framework service
+After=network.target
+
+[Service]
+EnvironmentFile=-/lib/systemd/system/routingd.service.d/routingd.preconf
+ExecStart=/usr/bin/routingd -i $MINK_DID -p $SCTP_PORT -h $BIND_ADDRESS $GDT_STREAMS
+
+[Install]
+WantedBy=multi-user.target
