@@ -57,7 +57,7 @@ RDPENDS = "bash"
 
 PACKAGECONFIG_CONFARGS = " \
     --with-gdt-csize=1024 \
-    --with-boost="${D}${libdir} ${D}${includedir}" \
+    --with-boost-libdir="${WORKDIR}/recipe-sysroot/usr/lib" \
 "
 
 # minimal configuration set for basic mNIK instance
