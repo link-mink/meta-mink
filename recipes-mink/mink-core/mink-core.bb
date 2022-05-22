@@ -64,7 +64,9 @@ PACKAGECONFIG_CONFARGS = " \
 PACKAGECONFIG = " \
     sysagentd \
     jrpcd \
+    configd \
     openssl \
+    lua \
 "
 
 PACKAGECONFIG[sysagentd] = " \
@@ -114,6 +116,12 @@ PACKAGECONFIG[ws-single-session] = " \
     --enable-ws-single-session=no \
 "
 
+PACKAGECONFIG[lua] = " \
+    --enable-lua=yes, \
+    --enable-lua=no, \
+    lua luajit \
+"
+
 FILES_SOLIBSDEV = ""
 
 FILES:${PN} = " \
@@ -125,6 +133,7 @@ FILES:${PN} = " \
     ${sysconfdir}/mink/dh.pem \
     ${sysconfdir}/mink/key.pem \
     ${sysconfdir}/mink/mink.db \
+    /usr/share/mink/mink.lua \
 "
 
 INSANE_SKIP:${PN} = "dev-so"
